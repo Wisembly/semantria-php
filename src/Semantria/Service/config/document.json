@@ -1,1 +1,71 @@
-{}
+{
+    "name": "Semantria Basic analysis",
+    "description": "The Semantria API for document basic analysis",
+    "operations": {
+        "addDocument": {
+            "httpMethod": "POST",
+            "parameters": {
+                "id" : {
+                    "location": "json",
+                    "required": true,
+                    "type": "string"
+                },
+                "text": {
+                    "location": "json",
+                    "required": true,
+                    "type": "string"
+                },
+                "tag": {
+                    "location": "json",
+                    "required": false,
+                    "type": "string"
+                },
+                "job_id": {
+                    "location": "json",
+                    "required": false,
+                    "type": "string"
+                },
+                "config_id": {
+                    "location": "query",
+                    "required": false,
+                    "type": "string"
+                },
+                "content_type": {
+                    "location": "uri",
+                    "required": true,
+                    "type": "string",
+                    "default": "json"
+                }
+            },
+            "responseClass": "DocumentModel",
+            "responseType": "model",
+            "summary": "This method queues document onto the server for analysis. Queued document analyzes individually and will have its own set of results. If unique configuration ID provided, Semantria uses settings of that configuration during analysis, in opposite the primary configuration uses. Document IDs are unique in scope of configuration. If the same ID appears twice, Semantria overrides existing document with the new Data.",
+            "uri": "/document.{content_type}"
+        },
+        "getDocument": {
+            "httpMethod": "GET",
+            "parameters": {
+                "document_id": {
+                    "location": "uri",
+                    "required": true,
+                    "type": "string"
+                },
+                "config_id": {
+                    "location": "query",
+                    "required": false,
+                    "type": "string"
+                },
+                "content_type": {
+                    "location": "uri",
+                    "required": true,
+                    "type": "string",
+                    "default": "json"
+                }
+            },
+            "responseClass": "DocumentModel",
+            "responseType": "model",
+            "summary": "This method retrieves analysis results for the single document by its unique ID or the document’s status in queue if it did not analyzed yet. Semantria guarantees delivering of all documents back to the client even if they FAILED on Semantria side due to some reason.",
+            "uri": "/document/{document_id}.{content_type}"
+        }
+    }
+}
