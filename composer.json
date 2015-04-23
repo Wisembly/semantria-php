@@ -1,0 +1,31 @@
+{
+    "name": "wisembly/semantria-php",
+    "description": "Semantria API client built on top of Guzzle 3",
+    "keywords": ["semantria", "semantria.com", "semantic", "api", "guzzle"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wisembly",
+            "homepage": "http://wisembly.com"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.4.0",
+        "guzzle/guzzle": "~3.9"
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "~3.7"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "Semantria": "src/"
+        }
+    },
+
+    "config": {
+        "bin-dir": "bin"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "name": "Semantria API",
+    "baseUrl": "https://api.semantria.com/",
+    "description": "Semantria API client built on top of Guzzle 3",
+    "includes": [
+        "configuration.json",
+        "document.json"
+    ]
+}

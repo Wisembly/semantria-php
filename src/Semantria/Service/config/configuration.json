@@ -1,0 +1,22 @@
+
+{
+    "name": "Semantria configuration",
+    "description": "The Semantria API for configurations",
+    "operations": {
+        "getConfigurations": {
+            "httpMethod": "GET",
+            "parameters": {
+                "content_type": {
+                    "location": "uri",
+                    "required": true,
+                    "type": "string",
+                    "default": "json"
+                }
+            },
+            "responseClass": "ConfigurationListModel",
+            "responseType": "model",
+            "summary": "Gets configurations list",
+            "uri": "/configurations.{content_type}"
+        }
+    }
+}
