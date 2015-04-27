@@ -10,10 +10,10 @@ use Semantria\SemantriaAbstractClient;
 
 class SemantriaAuthClient extends SemantriaAbstractClient
 {
-    private static $consumer_key;
-    private static $consumer_secret;
-    private static $application_name;
+    public static $consumer_key;
+    public static $application_name;
 
+    private static $consumer_secret;
     private static $oAuthVersion = '1.0';
 
     private static $required = [
@@ -59,7 +59,7 @@ class SemantriaAuthClient extends SemantriaAbstractClient
     }
 
     // Alter Guzzle Request to compute and add Semantria needed oAuth headers on the fly
-    private function oAuthRequest(Request $request)
+    public function oAuthRequest(Request $request)
     {
         $nonce = uniqid('');
         $timestamp = time();

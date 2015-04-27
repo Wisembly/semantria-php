@@ -2,13 +2,14 @@
 
 namespace Semantria;
 
-use Guzzle\Tests\GuzzleTestCase;
+use Guzzle\Tests\GuzzleTestCase,
+    Guzzle\Http\Message\Request;
 
 class SemantriaAuthClientTest extends GuzzleTestCase
 {
     private $config = [
-        'consumer_key'      => '1234',
-        'consumer_secret'   => 'my-app'
+        'consumer_key'      => 'my-app',
+        'consumer_secret'   => '1234'
     ];
 
     public function testFactory()
@@ -23,27 +24,37 @@ class SemantriaAuthClientTest extends GuzzleTestCase
         $this->assertInstanceOf('Semantria\SemantriaAuthClient', $client);
     }
 
-    // public function testAuthIsSet()
-    // {
-    //     $client = SemantriaAuthClient::factory($this->config);
-    //     $auth = $client->getDefaultOption('auth');
-    //     $this->assertEquals(3, count($auth));
-    //     $this->assertEquals($this->config['app_id'], $auth[0]);
-    //     $this->assertEquals($this->config['api_key'], $auth[1]);
-    //     $this->assertEquals('Basic', $auth[2]);
-    // }
+    public function testAuthIsSet()
+    {
+        $client = SemantriaAuthClient::factory($this->config);
+        $this->assertEquals($client::$consumer_key, 'my-app');
+        $this->assertEquals($client::$application_name, 'semantria-php');
+    }
 
-    function testGetServiceDescriptionFromFile()
+    public function testGetServiceDescriptionFromFile()
     {
         $client = new SemantriaAuthClient($this->config);
         $sd = $client->getServiceDescriptionFromFile(__DIR__ . '/../../src/Semantria/Service/config/semantria.json');
         $this->assertInstanceOf('Guzzle\Service\Description\ServiceDescription', $sd);
     }
 
+    public function testOAuthRequest()
+    {
+        $request = new Request('GET', '//foo.bar');
+        $client = SemantriaAuthClient::factory($this->config);
+
+        $client->oAuthRequest($request);
+        $this->assertEquals($request->getHeaders()->count(), 3);
+
+        $headers = $request->getHeaders()->getAll();
+        $this->assertArrayHasKey('authorization', $headers);
+        $this->assertArrayHasKey('x-app-name', $headers);
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      */
-    function testGetServiceDescriptionFromFileNoFile()
+    public function testGetServiceDescriptionFromFileNoFile()
     {
         $client = new SemantriaAuthClient($this->config);
         $client->getServiceDescriptionFromFile('');
@@ -62,6 +73,6 @@ class SemantriaAuthClientTest extends GuzzleTestCase
      */
     public function testFactoryMissingArgs()
     {
-        SemantriaAuthClient::factory(['app_id' => 'my-app']);
+        SemantriaAuthClient::factory(['consumer_id' => 'my-app']);
     }
 }
